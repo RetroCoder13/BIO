@@ -1,7 +1,8 @@
 import random
 import math
 
-numbers = [5,5,10,5,5]
+print("Enter each number individually:")
+numbers = [int(input()),int(input()),int(input()),int(input()),int(input())]
 score = 0
 
 def identicalNumbers(numbers):
@@ -34,7 +35,6 @@ def addToFifteen(numbers):
                         if sum == 15:
                             score += 1
 
-print(numbers)
 identicalNumbers(numbers)
 addToFifteen(numbers)
-print(score)
+print("\nScore: ", score)
