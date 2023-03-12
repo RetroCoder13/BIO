@@ -65,8 +65,12 @@ if stratOne(playerXMoves, "X") == None:
 else:
     print("YOU WIN")
 
+print(currentPos)
+
 playerOMoves = possibleMoves(currentPos, "O")
-if stratOne(playerXMoves, "O") == None:
-    currentPos = stratTwo(playerXMoves, "X")
+if stratOne(playerOMoves, "O") == None:
+    currentPos = stratTwo(playerOMoves, "O")
 else:
     print("OPPONENT WIN")
+
+print(currentPos)
