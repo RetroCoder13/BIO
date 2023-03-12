@@ -2,7 +2,8 @@
 #                     ^^^^^^
 
 # currentPos = "EOOOOXXXX"
-currentPos = "OXOEOXXOX"
+# currentPos = "OEOXOXXOX"
+currentPos = input().upper()
 
 def stringToList(string):
     list = []
@@ -17,21 +18,60 @@ def listToString(list):
     return string
 
 def possibleMoves(position,letter):
+    # firstLetterPos = position.find(letter)
     firstLetterPos = position.find(letter)
     emptyPos = position.find("E")
     moves = []
+    # for i in range(4):
+    #     listOfPos = stringToList(position)
+    #     if(i == 0):
+    #         nextLetterPos = firstLetterPos
+    #     else:
+    #         nextLetterPos = position.find(letter,nextLetterPos+1)
+
+    #     listOfPos[emptyPos] = letter
+    #     listOfPos[nextLetterPos] = "E"
+
+    #     moves += [listToString(listOfPos)]
+
     for i in range(4):
-        listOfPos = stringToList(position)
         if(i == 0):
-            nextLetterPos = firstLetterPos
+                nextLetterPos = firstLetterPos
         else:
             nextLetterPos = position.find(letter,nextLetterPos+1)
-
-        listOfPos[emptyPos] = letter
-        listOfPos[nextLetterPos] = "E"
-
-        moves += [listToString(listOfPos)]
-
+        listOfPos = stringToList(position)
+        try:
+            if(emptyPos==8):
+                if(nextLetterPos==1 or nextLetterPos==emptyPos-1 or nextLetterPos==0):
+                    listOfPos[emptyPos] = letter
+                    listOfPos[nextLetterPos] = "E"
+                    moves += [listToString(listOfPos)]
+            elif(emptyPos==1):
+                    if(nextLetterPos==emptyPos+1 or nextLetterPos==8 or nextLetterPos==0):
+                        listOfPos[emptyPos] = letter
+                        listOfPos[nextLetterPos] = "E"
+                        moves += [listToString(listOfPos)]
+                    elif(emptyPos==0):
+                        if(listOfPos[nextLetterPos-1] == letter and listOfPos[nextLetterPos+1] == letter):
+                            continue
+                        else:
+                            listOfPos[emptyPos] = letter
+                            listOfPos[nextLetterPos] = "E"
+                            moves += [listToString(listOfPos)]
+            else:
+                if(nextLetterPos==emptyPos+1 or nextLetterPos==emptyPos-1 or nextLetterPos==0):
+                    listOfPos[emptyPos] = letter
+                    listOfPos[nextLetterPos] = "E"
+                    moves += [listToString(listOfPos)]
+                elif(emptyPos==0):
+                    if(listOfPos[nextLetterPos-1] == letter and listOfPos[nextLetterPos+1] == letter):
+                        continue
+                    else:
+                        listOfPos[emptyPos] = letter
+                        listOfPos[nextLetterPos] = "E"
+                        moves += [listToString(listOfPos)]
+        except:
+            continue
     return moves
         
         # newPosition = position.replace(position[emptyPos],position[nextLetterPos])
@@ -55,22 +95,44 @@ def stratTwo(moves,opponentLetter):
 
 def checkWin(position):
         if "XEX" in position[1:] and position[0] == "X":
+            print(position + "\nPlayer 2 Wins!")
             return position
         if "OEO" in position[1:] and position[0] == "O":
+            print(position + "\nPlayer 1 Wins!")
             return position
 
-playerXMoves = possibleMoves(currentPos, "X")
-if stratOne(playerXMoves, "X") == None:
-    currentPos = stratTwo(playerXMoves, "O")
-else:
-    print("YOU WIN")
+test = None
+while True:
+    if(test!="r"):
+        test = input()
 
-print(currentPos)
+    if(checkWin(currentPos)):
+        break
+    
+    if(test=="n" or test=="r"):
+        playerOMoves = possibleMoves(currentPos, "O")
+        if stratOne(playerOMoves, "O") == None:
+            currentPos = stratTwo(playerOMoves, "O")
+        else:
+            currentPos = stratOne(playerOMoves, "O")
+        
+        if(test=="n"):
+            print(currentPos)
 
-playerOMoves = possibleMoves(currentPos, "O")
-if stratOne(playerOMoves, "O") == None:
-    currentPos = stratTwo(playerOMoves, "O")
-else:
-    print("OPPONENT WIN")
+    if(test!="r"):
+        test = input()
+    
+    if(checkWin(currentPos)):
+        break
 
-print(currentPos)
+    if(test=="n" or test=="r"):
+        playerXMoves = possibleMoves(currentPos, "X")
+        if stratOne(playerXMoves, "X") == None:
+            currentPos = stratTwo(playerXMoves, "X")
+        else:
+            currentPos = stratOne(playerXMoves, "X")
+        
+        if(test=="n"):
+            print(currentPos)
+
+# print(possibleMoves(currentPos, "O"))
