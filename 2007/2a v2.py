@@ -79,12 +79,21 @@ def possibleMoves(position,letter):
 
 def stratOne(moves,letter):
     for move in moves:
+        # if letter == "X":
+        #     if "XEX" in move[1:] and move[0] == letter:
+        #         if move[0] == letter:
+        #             return move
+        # if letter == "O":
+        #     if "OEO" in move[1:] and move[0] == letter:
+        #         if move[0] == letter:
+        #             return move
         if letter == "X":
-            if "XEX" in move[1:] and move[0] == letter:
+            if ("XEX" in move[1:] and move[0] == "X") or ("XE" in move[7:9] and move[1] == "X" and move[0] == "X") or ("EX" in move[1:3] and move[8] == "X" and move[0] == "X"):
                 return move
         if letter == "O":
-            if "OEO" in move[1:] and move[0] == letter:
+            if ("OEO" in move[1:] and move[0] == "O") or ("OE" in move[7:9] and move[1] == "O" and move[0] == "O") or ("EO" in move[1:3] and move[8] == "O" and move[0] == "O"):
                 return move
+    return moves[0]
 
 def stratTwo(moves,opponentLetter):
     for move in moves:
@@ -94,45 +103,51 @@ def stratTwo(moves,opponentLetter):
     return moves[0]
 
 def checkWin(position):
-        if "XEX" in position[1:] and position[0] == "X":
-            print(position + "\nPlayer 2 Wins!")
-            return position
-        if "OEO" in position[1:] and position[0] == "O":
-            print(position + "\nPlayer 1 Wins!")
-            return position
+    if ("XEX" in position[1:] and position[0] == "X") or ("XE" in position[7:9] and position[1] == "X" and position[0] == "X") or ("EX" in position[1:3] and position[8] == "X" and position[0] == "X"):
+        print(position + "\nPlayer 2 Wins!")
+        return position
+    if ("OEO" in position[1:] and position[0] == "O") or ("OE" in position[7:9] and position[1] == "O" and position[0] == "O") or ("EO" in position[1:3] and position[8] == "O" and position[0] == "O"):
+        print(position + "\nPlayer 1 Wins!")
+        return position
 
 test = None
+count = 0
+
 while True:
-    if(test!="r"):
-        test = input()
-
-    if(checkWin(currentPos)):
-        break
-    
-    if(test=="n" or test=="r"):
-        playerOMoves = possibleMoves(currentPos, "O")
-        if stratOne(playerOMoves, "O") == None:
-            currentPos = stratTwo(playerOMoves, "O")
-        else:
-            currentPos = stratOne(playerOMoves, "O")
-        
-        if(test=="n"):
-            print(currentPos)
-
+    count += 1
     if(test!="r"):
         test = input()
     
     if(checkWin(currentPos)):
         break
+    
+    playerOMoves = possibleMoves(currentPos, "O")
+    if stratOne(playerOMoves, "O") == None:
+        currentPos = stratTwo(playerOMoves, "O")
+    else:
+        currentPos = stratOne(playerOMoves, "O")
+    
+    if(checkWin(currentPos)):
+        break
+    elif(test=="n"):
+        print(currentPos)
 
-    if(test=="n" or test=="r"):
-        playerXMoves = possibleMoves(currentPos, "X")
-        if stratOne(playerXMoves, "X") == None:
-            currentPos = stratTwo(playerXMoves, "X")
-        else:
-            currentPos = stratOne(playerXMoves, "X")
+    if(test!="r"):
+        test = input()
+
+    playerXMoves = possibleMoves(currentPos, "X")
+    if stratOne(playerXMoves, "X") == None:
+        currentPos = stratTwo(playerXMoves, "X")
+    else:
+        currentPos = stratOne(playerXMoves, "X")
         
-        if(test=="n"):
-            print(currentPos)
+    if(checkWin(currentPos)):
+        break
+    elif(test=="n"):
+        print(currentPos)
+
+    if(count == 100):
+        print("Draw")
+        break
 
 # print(possibleMoves(currentPos, "O"))
