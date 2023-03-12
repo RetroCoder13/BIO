@@ -93,7 +93,7 @@ def stratOne(moves,letter):
         if letter == "O":
             if ("OEO" in move[1:] and move[0] == "O") or ("OE" in move[7:9] and move[1] == "O" and move[0] == "O") or ("EO" in move[1:3] and move[8] == "O" and move[0] == "O"):
                 return move
-    return moves[0]
+    # return moves[0]
 
 def stratTwo(moves,opponentLetter):
     for move in moves:
@@ -123,7 +123,7 @@ while True:
     
     playerOMoves = possibleMoves(currentPos, "O")
     if stratOne(playerOMoves, "O") == None:
-        currentPos = stratTwo(playerOMoves, "O")
+        currentPos = stratTwo(playerOMoves, "X")
     else:
         currentPos = stratOne(playerOMoves, "O")
     
@@ -137,7 +137,7 @@ while True:
 
     playerXMoves = possibleMoves(currentPos, "X")
     if stratOne(playerXMoves, "X") == None:
-        currentPos = stratTwo(playerXMoves, "X")
+        currentPos = stratTwo(playerXMoves, "O")
     else:
         currentPos = stratOne(playerXMoves, "X")
         
