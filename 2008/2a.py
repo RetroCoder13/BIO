@@ -32,7 +32,7 @@ class Rotor:
 
         self.rotations += 1
 
-startingRotation = int(input())
+startingRotation = int(input()) % 16
 string = input().upper()
 finalString = ""
 
