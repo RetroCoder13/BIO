@@ -1,4 +1,4 @@
-word = input("Word: ")
+word = input("Word: ").upper()
 digitWords = ["ONE","TWO","THREE","FOUR","FIVE","SIX","SEVEN","EIGHT","NINE"]
 currentWord = [0,0,0,0,0,0,0,0,0]
 
